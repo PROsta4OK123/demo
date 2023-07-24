@@ -1,7 +1,5 @@
 package com.example.library.config;
 
-import com.example.library.repository.BookRepository;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
