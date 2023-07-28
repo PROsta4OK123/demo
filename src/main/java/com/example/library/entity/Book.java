@@ -5,7 +5,7 @@ import org.hibernate.annotations.GeneratedColumn;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "Book")
+@Table(name = "book")
 public class Book {
     public Book(String name, String createYear, String description) {
         this.name = name;

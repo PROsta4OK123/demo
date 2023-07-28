@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories
-@ComponentScan("com.example.library")
-@PropertySource("classpath:application.properties")
+@EnableJpaRepositories("com.example.library.repository")
 public class DataConfig {
 }

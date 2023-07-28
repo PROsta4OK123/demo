@@ -10,8 +10,13 @@ import java.util.Optional;
 
 @RestController
 public class BookController {
+    private final BookRepo bookRepo;
+
     @Autowired
-    BookRepo bookRepo;
+    public BookController(BookRepo bookRepo) {
+        this.bookRepo = bookRepo;
+    }
+
     @GetMapping(value = "library/get-book/{bookId}")
     public Optional<Book> getBook(@PathVariable Long bookId){
         return bookRepo.findById(bookId);
