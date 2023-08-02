@@ -5,7 +5,7 @@ import org.hibernate.annotations.GeneratedColumn;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "book")
+@Table
 public class Book {
     public Book(String name, String createYear, String description) {
         this.name = name;
@@ -18,7 +18,6 @@ public class Book {
 
     @Id
     @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id", length = 255, nullable = false)
 
     private Long id;
