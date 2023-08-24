@@ -1,7 +1,7 @@
 package com.example.library.controller;
 
 import com.example.library.entity.Book;
-import com.example.library.repository.BookRepo;
+import com.example.library.servise.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,86 +10,25 @@ import java.util.Optional;
 
 @RestController
 public class BookController {
-    private final BookRepo bookRepo;
+    private final BookService bookService;
     @Autowired
-    public BookController(BookRepo bookRepo) {
-        this.bookRepo = bookRepo;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
-
     @GetMapping(value = "library/get-book/{bookId}")
-    public Optional<Book> getBook(@PathVariable Long bookId){
-        return bookRepo.findById(bookId);
+    public Book getBook(@PathVariable Long bookId){
+        return bookService.getBook(bookId);
     }
     @PostMapping("library/add-book")
     public void addBook(@RequestBody Book book) {
-        bookRepo.save(book);
+        bookService.addBook(book);
     }
-    @DeleteMapping("library/remove")
-    public void removeBook(@RequestBody DeleteRequest request){
-        bookRepo.deleteById(request.getId());
+    @DeleteMapping("library/remove/{id}")
+    public void removeBook(@PathVariable Long id){
+        bookService.DeleteBook(id);
     }
-    @PatchMapping("library/update/name")
-    public void updateBook(@RequestBody UpdateRequest request){
-        Book book = bookRepo.getById(request.getId());
-        updateName(request.getName(),book);
-        updateDescription(request.getDescription(),book);
-        updateYear(request.getCreateYear(),book);
-        bookRepo.save(book);
+    @PatchMapping("library/update/{id}")
+    public void updateBook(@PathVariable Long id,@RequestParam String name, @RequestParam String createYear, @RequestParam String description){
+        bookService.updateBook(id,name,createYear,description);
     }
-    private void updateName(String name, Book book){
-        if(name != null){
-            book.setName(name);
-        }
-    }
-    private void updateDescription(String description, Book book){
-        if(description != null){
-            book.setDescription(description);
-        }
-    }
-    private void updateYear(String year, Book book){
-        if(year != null){
-            book.setCreateYear(year);
-        }
-    }
-    public static class DeleteRequest{
-        private Long id;
-        public Long getId() {
-            return id;
-        }
-    }
-    public static class UpdateRequest{
-        private Long id;
-        private  String name;
-        private String createYear;
-        private String Description;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getCreateYear() {
-            return createYear;
-        }
-
-        public void setCreateYear(String createYear) {
-            this.createYear = createYear;
-        }
-
-        public String getDescription() {
-            return Description;
-        }
-
-        public void setDescription(String description) {
-            Description = description;
-        }
-        public Long getId() {
-            return id;
-        }
-    }
-
-
 }
