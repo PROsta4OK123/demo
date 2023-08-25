@@ -2,15 +2,16 @@ package com.example.library.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table
 public class BookLog {
     public BookLog() {
     }
 
-    public BookLog(Long userId, String bookName, boolean onLease) {
+    public BookLog(Long userId, Long bookId, boolean onLease) {
         this.userId = userId;
-        this.bookName = bookName;
+        this.bookId = bookId;
         this.onLease = onLease;
     }
 
@@ -22,9 +23,8 @@ public class BookLog {
 
     @Column(nullable = false, length = 255)
     Long userId;
-
     @Column(nullable = false)
-    String bookName;
+    Long bookId;
     @Column(nullable = false)
     boolean onLease;
 
@@ -36,19 +36,19 @@ public class BookLog {
         this.userId = userId;
     }
 
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
     public boolean isOnLease() {
         return onLease;
     }
 
     public void setOnLease(boolean onLease) {
         this.onLease = onLease;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
     }
 }

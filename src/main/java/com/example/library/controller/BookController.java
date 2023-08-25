@@ -10,11 +10,8 @@ import java.util.Optional;
 
 @RestController
 public class BookController {
-    private final BookService bookService;
     @Autowired
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
+    private BookService bookService;
     @GetMapping(value = "library/get-book/{bookId}")
     public Book getBook(@PathVariable Long bookId){
         return bookService.getBook(bookId);
