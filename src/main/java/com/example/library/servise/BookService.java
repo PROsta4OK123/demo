@@ -1,5 +1,6 @@
 package com.example.library.servise;
 
+import com.example.library.Exeption.ObjectNotFoundError;
 import com.example.library.entity.Book;
 import com.example.library.repository.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,32 +15,28 @@ public class BookService {
         this.bookRepo = bookRepo;
     }
 
-    public boolean updateBook(Long id, String name, String createYear, String description) {
-        boolean isPresent= bookRepo.findById(id).isPresent();
-        if(isPresent){
-            Book book = bookRepo.findById(id).get();
-            book.setName(name);
-            book.setCreateYear(createYear);
-            book.setDescription(description);
-            return true;
-        }else{
-            System.out.println("Not found");
-        }return false;
+    public void updateBook(Long id, String name, String createYear, String description) {
+        Book book = bookRepo.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundError("Book with this id not found"));
+        setUpdateBook(book,name,createYear,description);
     }
 
     public void DeleteBook(Long id) {
         bookRepo.deleteById(id);
     }
-    public Book getBook(Long id){
-        boolean isPresent= bookRepo.findById(id).isPresent();
-        if(isPresent){
-            return bookRepo.findById(id).get();
-        }else {
-            System.out.println("Not found");
-            return null;
-        }
+
+    public Book getBook(Long id) {
+        return bookRepo.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundError("Book with this id not found"));
     }
-    public void addBook(Book book){
+
+    public void addBook(Book book) {
         bookRepo.save(book);
+    }
+
+    private void setUpdateBook(Book book, String name, String createYear, String description) {
+        book.setName(name);
+        book.setCreateYear(createYear);
+        book.setDescription(description);
     }
 }

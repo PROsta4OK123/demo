@@ -1,5 +1,6 @@
 package com.example.library.servise;
 
+import com.example.library.Exeption.ObjectNotFoundError;
 import com.example.library.entity.User;
 import com.example.library.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,8 @@ public class UserService {
     }
 
     public User getUser(Long id) {
-        boolean isPresent = userRepo.findById(id).isPresent();
-        if (isPresent) {
-            return userRepo.findById(id).get();
-        } else {
-            System.out.println("Not found");
-            return null;
-        }
+        return userRepo.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundError("User with this id not found"));
     }
 
     public void addUser(User user) {
@@ -34,12 +30,13 @@ public class UserService {
     }
 
     public void UpdateUser(Long id, String name, String email, String phone){
-        boolean isPresent = userRepo.findById(id).isPresent();
-        if(isPresent){
-            User user = userRepo.findById(id).get();
-            user.setEmail(email);
-            user.setName(name);
-            user.setPhone(phone);
-        }else System.out.println("User not found");
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundError("User with this id not found"));
+        setUserUpdate(user,name,email,phone);
+    }
+    private void setUserUpdate(User user,String name, String email, String phone){
+        user.setEmail(email);
+        user.setName(name);
+        user.setPhone(phone);
     }
 }
