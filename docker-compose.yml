@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  mysql-backendBd:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - "MYSQL_ROOT_PASSWORD=1234567890"
+      - "MYSQL_DATABASE=library"
+      - "MYSQL_USER=libraryManager"
+      - "MYSQL_PASSWORD=1234567890"
+    networks:
+      library:
+  app:
+    image:  "test2.0"
+    ports:
+      - 8080:8080
+    networks:
+      - library
+    restart: always
+
+networks:
+  library:
